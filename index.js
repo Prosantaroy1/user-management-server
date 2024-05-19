@@ -9,8 +9,7 @@ require('dotenv').config();
 app.use(cors())
 app.use(express.json())
 
-//user-management
-//iDiB926GRim2XGbz
+
 
 
 app.get('/', (req, res) => {
@@ -36,6 +35,22 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
+    //user collection database
+    const userCollection=client.db('UserDB').collection('users');
+
+    //user post
+    app.post('/users', async(req, res)=>{
+        const query=req.body;
+        //console.log(query)
+        const result=await userCollection.insertOne(query);
+        res.send(result);
+    })
+
+    //user get
+    app.get('/users', async(ewq, res)=>{
+        const data=await userCollection.find().toArray();
+        res.send(data);
+    })
 
 
     // Send a ping to confirm a successful connection
